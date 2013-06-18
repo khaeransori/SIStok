@@ -24,6 +24,109 @@
 class App extends Secure_Controller {
     public function index() {
         //put your code here
+        $d['pengembang'] = $this->config->item('pengembang');
+        $d['judul_lengkap'] = $this->config->item('nama_aplikasi_full');
+        $d['judul_pendek'] = $this->config->item('nama_aplikasi_pendek');
+        $d['instansi'] = $this->config->item('nama_instansi');
+        $d['credit'] = $this->config->item('credit_aplikasi');
+        $d['alamat'] = $this->config->item('alamat_instansi');
+        
+        $this->load->view('include/header', $d);
+        $this->load->view('dashboard_administrator/bg_header');
+        $this->load->view('include/footer');
+    }
+    
+    public function change_password() {
+        $d['pengembang'] = $this->config->item('pengembang');
+        $d['judul_lengkap'] = $this->config->item('nama_aplikasi_full');
+        $d['judul_pendek'] = $this->config->item('nama_aplikasi_pendek');
+        $d['instansi'] = $this->config->item('nama_instansi');
+        $d['credit'] = $this->config->item('credit_aplikasi');
+        $d['alamat'] = $this->config->item('alamat_instansi');
+        
+        $this->load->view('include/header', $d);
+        $this->load->view('dashboard_administrator/bg_header');
+        $this->load->view('dashboard_administrator/user/bg_change_password');
+        $this->load->view('include/footer');
+    }
+    
+    public function save_pass() {
+        $this->form_validation->set_rules('pass_lama', 'Password Lama', 'trim|required');
+        $this->form_validation->set_rules('pass_baru', 'Password Baru', 'trim|required');
+        $this->form_validation->set_rules('ulangi_pass_baru', 'Ulangi Password Baru', 'trim|required');
+
+        $id['user'] = $this->input->post("username");
+        $pass_lama = $this->input->post("pass_lama");
+        $pass_baru = $this->input->post("pass_baru");
+        $ulangi_pass_baru = $this->input->post("ulangi_pass_baru");
+
+        $set['tab_a'] = "active";
+        $set['tab_b'] = "";
+        $this->session->set_userdata($set);
+
+        if ($this->form_validation->run() == FALSE) {
+            $d['pengembang'] = $this->config->item('pengembang');
+            $d['judul_lengkap'] = $this->config->item('nama_aplikasi_full');
+            $d['judul_pendek'] = $this->config->item('nama_aplikasi_pendek');
+            $d['instansi'] = $this->config->item('nama_instansi');
+            $d['credit'] = $this->config->item('credit_aplikasi');
+            $d['alamat'] = $this->config->item('alamat_instansi');
+
+            $this->load->view('include/header', $d);
+            $this->load->view('dashboard_administrator/bg_header');
+            $this->load->view('dashboard_administrator/user/bg_change_password');
+            $this->load->view('include/footer');
+        } else {
+            $login['user'] = $id['user'];
+            $login['pass'] = md5($pass_lama.$this->config->item("key_login"));
+            $cek = $this->db->get_where('tbl_admin', $login);
+            if($cek->num_rows()>0) {
+                if($pass_baru==$ulangi_pass_baru) {
+                    $upd['pass'] = md5($pass_baru.$this->config->item("key_login"));
+                    $this->db->update("tbl_admin",$upd,$id);
+                    $this->session->set_flashdata('pass_success', 'Berhasil mengubah password...');
+                    header('location:'.base_url().'app/change_password');
+                } else {
+                    $this->session->set_flashdata('pass_fail', 'Password Baru tidak sama...');
+                    header('location:'.base_url().'app/change_password');
+                }
+            } else {
+                $this->session->set_flashdata('pass_fail', 'Password Lama salah...');
+                header('location:'.base_url().'app/change_password');
+            }
+        }
+    }
+    
+    public function save_name() {
+        $this->form_validation->set_rules('nama_lengkap', 'Nama Pengguna', 'trim|required');
+			
+        $id['user'] = $this->input->post("username");
+        $nama = $this->input->post("nama_lengkap");
+
+        $set['tab_a'] = "";
+        $set['tab_b'] = "active";
+        $this->session->set_userdata($set);
+
+        if ($this->form_validation->run() == FALSE) {
+            $d['pengembang'] = $this->config->item('pengembang');
+            $d['judul_lengkap'] = $this->config->item('nama_aplikasi_full');
+            $d['judul_pendek'] = $this->config->item('nama_aplikasi_pendek');
+            $d['instansi'] = $this->config->item('nama_instansi');
+            $d['credit'] = $this->config->item('credit_aplikasi');
+            $d['alamat'] = $this->config->item('alamat_instansi');
+
+            $this->load->view('include/header', $d);
+            $this->load->view('dashboard_administrator/bg_header');
+            $this->load->view('dashboard_administrator/user/bg_change_password');
+            $this->load->view('include/footer');
+        } else {
+            $upd['nama'] = $nama;
+            $this->db->update("tbl_admin",$upd,$id);
+            $this->session->set_flashdata('pass_success', 'Berhasil mengubah nama pengguna...');
+            $set_new['sess_nama'] = $upd['nama'];
+            $this->session->set_userdata($set_new);
+            header('location:'.base_url().'app/change_password');
+        }
     }
 }
 

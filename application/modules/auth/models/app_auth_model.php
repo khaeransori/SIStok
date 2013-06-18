@@ -31,8 +31,11 @@ class app_auth_model extends CI_Model {
             foreach ($query->result() as $q) {
                 $sess_data['logged_in'] = 'LaporNdanSayaTelahMasuk';
                 $sess_data['sess_id_user'] = $q->id_admin;
+                $sess_data['sess_user'] = $q->user;
                 $sess_data['sess_nama'] = $q->nama;
                 $sess_data['sess_level'] = $q->level;
+                
+                $this->session->set_userdata($sess_data);
             }
             redirect("app");
         } else {

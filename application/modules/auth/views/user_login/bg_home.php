@@ -45,10 +45,3 @@
         <p><?php echo $judul_lengkap.' '.$instansi; ?> merupakan sebuah aplikasi untuk melakukan manajemen data barang di <?=$instansi;?>. Silahkan masukkan username dan password anda untuk mulai melakukan manajemen atau pengolahan data sesuai dengan hak akses yang anda miliki.</p>
         <p><a href="http://fb.me/khaeransori.nad/" class="btn btn-primary btn-large">Meet the Creator <i class="icon-circle-arrow-right icon-white"></i> </a></p>
     </div>
-
-
-    <footer class="well">
-        <p><?php echo $credit; ?></p>
-    </footer>
-
-</div> <!-- /container -->
