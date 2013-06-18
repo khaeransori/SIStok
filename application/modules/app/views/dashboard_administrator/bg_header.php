@@ -8,7 +8,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book icon-white"></i> Master Data <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo base_url(); ?>master_data_kendaraan"><i class="icon-tag"></i> Master Data Kendaraan</a></li>
+                            <li><a href="<?php echo base_url(); ?>app/kategori_barang"><i class="icon-tag"></i> Kategori Barang</a></li>
                             <li><a href="<?php echo base_url(); ?>master_data_kode_plat"><i class="icon-question-sign"></i> Master Data Kode Plat</a></li>
                         </ul>
                     </li>

@@ -380,7 +380,7 @@ $config['proxy_ips'] = '';
 |
  */
 $config['key_login'] = 'NurulAmaliaDewiAnsori';
-$config['limit_data'] = '15';
+$config['limit_data'] = 10;
 $config['pengembang'] = "Khaer Ansori";
 $config['nama_aplikasi_full'] = 'Sistem Informasi Stok Barang (SI Stok Barang)';
 $config['nama_aplikasi_pendek'] = 'Sistem Informasi Stok Barang';
