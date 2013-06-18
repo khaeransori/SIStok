@@ -1,7 +1,6 @@
+@charset "utf-8";
 /**
  * All your custom CSS should go into this file
  */
 
-body {
-   padding-top: 15px;
-}
+@import url(docs.css);

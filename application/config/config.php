@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '';
+$config['base_url']	= 'http://localhost:8080/sistok-bootstrap/';
 
 /*
 |--------------------------------------------------------------------------
@@ -240,7 +240,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'NurulAmaliaDewiAnsori';
 
 /*
 |--------------------------------------------------------------------------
@@ -372,6 +372,20 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Additional Configuration
+|--------------------------------------------------------------------------
+|
+ */
+$config['limit_data'] = '15';
+$config['pengembang'] = "Khaer Ansori";
+$config['nama_aplikasi_full'] = 'Sistem Informasi Stok Barang (SI Stok Barang)';
+$config['nama_aplikasi_pendek'] = 'Sistem Informasi Stok Barang';
+$config['nama_instansi'] = 'Teknik Sistem Komputer Universitas Diponegoro';
+$config['alamat_instansi'] = '';
+$config['credit_aplikasi'] = 'Sistem Informasi Stok Barang Teknik Sistem Komputer Universitas Diponegoro - Powered by CodeIgniter and Twitter Bootstrap<br>'.$config['pengembang'];
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
