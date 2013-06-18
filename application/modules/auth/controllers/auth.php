@@ -22,15 +22,12 @@
  * @author Khaer Ansori
  */
 class Auth extends Main_Controller {
-    function __construct() {
-        parent::__construct();
+    public function index() {
+        //put your code here
         if($this->session->userdata("logged_in")!="") {
             redirect("app");
         }
-    }
-    
-    public function index() {
-        //put your code here
+        
         $d['pengembang'] = $this->config->item('pengembang');
         $d['judul_lengkap'] = $this->config->item('nama_aplikasi_full');
         $d['judul_pendek'] = $this->config->item('nama_aplikasi_pendek');

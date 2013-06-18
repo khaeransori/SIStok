@@ -28,7 +28,7 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a href="<?php echo base_url(); ?>app/change_password"><i class="icon-wrench"></i> Pengaturan Akun</a></li>
-                        <li><a href="<?php echo base_url(); ?>manage_user"><i class="icon-tasks"></i> Manajemen User</a></li>
+                        <li><a href="<?php echo base_url(); ?>app/manage_user"><i class="icon-tasks"></i> Manajemen User</a></li>
                         <li><a href="<?php echo base_url(); ?>app/logout"><i class="icon-off"></i> Log Out</a></li>
                     </ul>
                 </div>
