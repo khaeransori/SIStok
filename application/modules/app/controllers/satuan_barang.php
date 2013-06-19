@@ -31,6 +31,8 @@ class satuan_barang extends Secure_Controller {
         $d['credit'] = $this->config->item('credit_aplikasi');
         $d['alamat'] = $this->config->item('alamat_instansi');
         
+        $d['beranda_aktif'] = "active";
+        
         $page = $this->uri->segment(4);
         $limit = $this->config->item('limit_data');
         $offset = (!$page) ? 0 : $page;
@@ -62,6 +64,8 @@ class satuan_barang extends Secure_Controller {
         $d['instansi'] = $this->config->item('nama_instansi');
         $d['credit'] = $this->config->item('credit_aplikasi');
         $d['alamat'] = $this->config->item('alamat_instansi');
+        
+        $d['beranda_aktif'] = "active";
         
         foreach($q->result() as $dt)
         {
@@ -97,6 +101,8 @@ class satuan_barang extends Secure_Controller {
         $d['credit'] = $this->config->item('credit_aplikasi');
         $d['alamat'] = $this->config->item('alamat_instansi');
         
+        $d['beranda_aktif'] = "active";
+        
         $d['st'] = "edit";
 
         $this->load->view('include/header', $d);
@@ -112,6 +118,8 @@ class satuan_barang extends Secure_Controller {
         $d['instansi'] = $this->config->item('nama_instansi');
         $d['credit'] = $this->config->item('credit_aplikasi');
         $d['alamat'] = $this->config->item('alamat_instansi');
+        
+        $d['beranda_aktif'] = "active";
         
         $d['id_param'] = ""; 
         $d['nama_satuan_barang'] = ""; 

@@ -4,7 +4,7 @@
             <a class="brand" href="<?php echo base_url(); ?>"><?php echo $judul_pendek; ?></a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li class="active"><a href="<?php echo base_url(); ?>"><i class="icon-home icon-white"></i> Beranda</a></li>
+                    <li class="<?php echo isset($beranda_aktif) ? $beranda_aktif : "";  ?>"><a href="<?php echo base_url(); ?>"><i class="icon-home icon-white"></i> Beranda</a></li>
                 </ul>
                 
                 <div class="btn-group pull-right">

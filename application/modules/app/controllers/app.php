@@ -31,6 +31,8 @@ class App extends Secure_Controller {
         $d['credit'] = $this->config->item('credit_aplikasi');
         $d['alamat'] = $this->config->item('alamat_instansi');
         
+        $d['beranda_aktif'] = "active";
+        
         $this->load->view('include/header', $d);
         $this->load->view('dashboard_administrator/bg_header');
         $this->load->view('include/footer');
@@ -43,6 +45,8 @@ class App extends Secure_Controller {
         $d['instansi'] = $this->config->item('nama_instansi');
         $d['credit'] = $this->config->item('credit_aplikasi');
         $d['alamat'] = $this->config->item('alamat_instansi');
+        
+        $d['beranda_aktif'] = "active";
         
         $this->load->view('include/header', $d);
         $this->load->view('dashboard_administrator/bg_header');
@@ -71,6 +75,8 @@ class App extends Secure_Controller {
             $d['instansi'] = $this->config->item('nama_instansi');
             $d['credit'] = $this->config->item('credit_aplikasi');
             $d['alamat'] = $this->config->item('alamat_instansi');
+            
+            $d['beranda_aktif'] = "active";
 
             $this->load->view('include/header', $d);
             $this->load->view('dashboard_administrator/bg_header');
@@ -114,6 +120,8 @@ class App extends Secure_Controller {
             $d['instansi'] = $this->config->item('nama_instansi');
             $d['credit'] = $this->config->item('credit_aplikasi');
             $d['alamat'] = $this->config->item('alamat_instansi');
+            
+            $d['beranda_aktif'] = "active";
 
             $this->load->view('include/header', $d);
             $this->load->view('dashboard_administrator/bg_header');

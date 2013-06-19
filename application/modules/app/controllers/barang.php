@@ -17,11 +17,11 @@
  */
 
 /**
- * Description of manage_user
+ * Description of barang
  *
  * @author Khaer Ansori
  */
-class manage_user extends Secure_Controller {
+class barang extends Secure_Controller {
     public function index() {
         //put your code here
         $d['pengembang'] = $this->config->item('pengembang');
@@ -38,25 +38,29 @@ class manage_user extends Secure_Controller {
         $offset = (!$page) ? 0 : $page;
         
         $d['tot'] = $offset;
-        $tot_hal = $this->db->get("tbl_admin");
-        $config['base_url'] = base_url() . 'app/manage_user/index/';
+        $tot_hal = $this->db->get("tbl_barang");
+        $config['base_url'] = base_url() . 'app/barang/index/';
         $config['total_rows'] = $tot_hal->num_rows();
         $config['per_page'] = $limit;
         $config['uri_segment'] = 4;
         $this->pagination->initialize($config);
         $d["paginator"] =$this->pagination->create_links();
         
-        $d['list_admin'] = $this->db->get("tbl_admin",$limit,$offset);
-                        
+        $this->db->join('tbl_kategori_barang', 'tbl_kategori_barang.id_kategori_barang = tbl_barang.id_kategori_barang');
+        $this->db->join('tbl_satuan_barang', 'tbl_satuan_barang.id_satuan_barang = tbl_barang.id_satuan_barang');
+        $d['list_barang'] = $this->db->get("tbl_barang",$limit,$offset);
+        
         $this->load->view('include/header', $d);
         $this->load->view('dashboard_administrator/bg_header');
-        $this->load->view('dashboard_administrator/user/bg_list_user');
+        $this->load->view('dashboard_administrator/barang/bg_list');
         $this->load->view('include/footer');
     }
     
-    public function detail($id_admin) {
-        $id['id_admin'] = $id_admin;
-        $q = $this->db->get_where("tbl_admin",$id);
+    public function detail($id_barang) {
+        $id['id_barang'] = $id_barang;
+        $this->db->join('tbl_kategori_barang', 'tbl_kategori_barang.id_kategori_barang = tbl_barang.id_kategori_barang');
+        $this->db->join('tbl_satuan_barang', 'tbl_satuan_barang.id_satuan_barang = tbl_barang.id_satuan_barang');
+        $q = $this->db->get_where("tbl_barang",$id);
         
         $d['pengembang'] = $this->config->item('pengembang');
         $d['judul_lengkap'] = $this->config->item('nama_aplikasi_full');
@@ -69,42 +73,35 @@ class manage_user extends Secure_Controller {
         
         foreach($q->result() as $dt)
         {
-            $d['username'] = $dt->user; 
-            $d['nama_lengkap'] = $dt->nama; 
-            $d['level'] = $dt->level; 
+            $d['id_barang'] = $dt->id_barang; 
+            $d['nama_barang'] = $dt->nama_barang;
+            $d['kode_kategori_barang'] = $dt->kode_kategori_barang;
+            $d['nama_kategori_barang'] = $dt->nama_kategori_barang;
+            $d['satuan_barang'] = $dt->nama_satuan_barang;
         }
 
         $this->load->view('include/header', $d);
         $this->load->view('dashboard_administrator/bg_header');
-        $this->load->view('dashboard_administrator/user/bg_detail');
+        $this->load->view('dashboard_administrator/barang/bg_detail');
         $this->load->view('include/footer');
     }
     
-    public function hapus($id_admin) {
-        if($this->session->userdata('sess_id_user') != $id_admin)
-        {
-            $id['id_admin'] = $id_admin;
-            $this->db->delete("tbl_admin",$id);
-            header('location:'.base_url().'app/manage_user');
-        }
-        else
-        {
-            $this->session->set_flashdata("fail","Anda tidak dapat menghapus akun anda sendiri.");
-            header('location:'.base_url().'app/manage_user');
-        }
+    public function hapus($id_barang) {
+        $id['id_barang'] = $id_barang;
+        $this->db->delete("tbl_barang",$id);
+        header('location:'.base_url().'app/barang');
     }
     
-    public function edit($id_admin) {
-        $id['id_admin'] = $id_admin;
-        $q = $this->db->get_where("tbl_admin",$id);
+    public function edit($id_barang) {
+        $id['id_barang'] = $id_barang;
+        $q = $this->db->get_where("tbl_barang",$id);
         
         foreach($q->result() as $dt)
         {
-            $d['id_param'] = $dt->id_admin;
-            $d['username'] = $dt->user; 
-            $d['password'] = $dt->pass; 
-            $d['nama_lengkap'] = $dt->nama;
-            $d['level'] = $dt->level; 
+            $d['id_param'] = $dt->id_barang;
+            $d['nama_barang'] = $dt->nama_barang;
+            $d['id_kategori_barang'] = $dt->id_kategori_barang;
+            $d['id_satuan_barang'] = $dt->id_satuan_barang;
         }
         
         $d['pengembang'] = $this->config->item('pengembang');
@@ -115,12 +112,15 @@ class manage_user extends Secure_Controller {
         $d['alamat'] = $this->config->item('alamat_instansi');
         
         $d['beranda_aktif'] = "active";
+        
+        $d['kategori_list'] = $this->db->get("tbl_kategori_barang");
+        $d['satuan_list'] = $this->db->get("tbl_satuan_barang");
         
         $d['st'] = "edit";
 
         $this->load->view('include/header', $d);
         $this->load->view('dashboard_administrator/bg_header');
-        $this->load->view('dashboard_administrator/user/bg_input');
+        $this->load->view('dashboard_administrator/barang/bg_input');
         $this->load->view('include/footer');
     }
     
@@ -135,60 +135,46 @@ class manage_user extends Secure_Controller {
         $d['beranda_aktif'] = "active";
         
         $d['id_param'] = "";
-        $d['username'] = ""; 
-        $d['password'] = ""; 
-        $d['nama_lengkap'] = "";
-        $d['level'] = 1; 
+        $d['nama_barang'] = "";
+        $d['id_kategori_barang'] = "";
+        $d['id_satuan_barang'] = "";
+        
+        $d['kategori_list'] = $this->db->get("tbl_kategori_barang");
+        $d['satuan_list'] = $this->db->get("tbl_satuan_barang");
 
         $d['st'] = "tambah";
 
         $this->load->view('include/header', $d);
         $this->load->view('dashboard_administrator/bg_header');
-        $this->load->view('dashboard_administrator/user/bg_input');
+        $this->load->view('dashboard_administrator/barang/bg_input');
         $this->load->view('include/footer');
     }
     
     public function simpan() {
-        $this->form_validation->set_rules('username', 'Username', 'trim|required');
-        $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap', 'trim|required');
-        $id['id_admin'] = $this->input->post("id_param");
+        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'trim|required');
+        $id['id_barang'] = $this->input->post("id_param");
         
         if($this->form_validation->run() == TRUE) {
             $st = $this->input->post('st');
             if($st=="edit") {
-                $upd['user'] = $this->input->post("username");
-                $upd['nama'] = $this->input->post("nama_lengkap");
-                $upd['level'] = $this->input->post("level");
-                if($this->input->post("password")!="") {
-                    $upd['pass'] = md5($this->input->post("password").$this->config->item("key_login"));
-                }
-                $this->db->update("tbl_admin",$upd,$id);
-                $this->session->set_flashdata("success","Data user telah diperbaharui.");
-                if($this->session->userdata('sess_id_user') == $id['id_admin']) {
-                    $set_new['sess_nama'] = $upd['nama'];
-                    $this->session->set_userdata($set_new);
-                }
-                header('location:'.base_url().'app/manage_user/edit/'.$id['id_admin']);
+                $upd['nama_barang'] = $this->input->post("nama_barang");
+                $upd['id_kategori_barang'] = $this->input->post("id_kategori_barang");
+                $upd['id_satuan_barang'] = $this->input->post("id_satuan_barang");
+                $this->db->update("tbl_barang",$upd,$id);
+                $this->session->set_flashdata("success","Data kategori telah diperbaharui.");
+                header('location:'.base_url().'app/barang/edit/'.$id['id_barang']);
             } else if($st=="tambah") {
-                $login['user'] = $this->input->post("username");
-                $cek = $this->db->get_where('tbl_admin', $login);
-                if($cek->num_rows()>0) {
-                    $this->session->set_flashdata("fail","Username telah ada, silahkan gunakan yang lainnya.");
-                    header('location:'.base_url().'app/manage_user/tambah');
-                } else {
-                    $in['user'] = $this->input->post("username");
-                    $in['nama'] = $this->input->post("nama_lengkap");
-                    $in['level'] = $this->input->post("level");
-                    $in['pass'] = md5($this->input->post("password").$this->config->item("key_login"));
-                    $this->db->insert("tbl_admin",$in);
-                    
-                    $this->session->set_flashdata("success","Data berhasil ditambahkan.");
-                    header('location:'.base_url().'app/manage_user');
-                }
+                $in['nama_barang'] = $this->input->post("nama_barang");
+                $in['id_kategori_barang'] = $this->input->post("id_kategori_barang");
+                $in['id_satuan_barang'] = $this->input->post("id_satuan_barang");
+                $this->db->insert("tbl_barang",$in);
+
+                $this->session->set_flashdata("success","Data berhasil ditambahkan.");
+                header('location:'.base_url().'app/barang');
             }
         }
     }
 }
 
-/* End of file manage_user.php */
-/* Location: ./application/controllers/manage_user.php */
+/* End of file barang.php */
+/* Location: ./application/controllers/barang.php */
