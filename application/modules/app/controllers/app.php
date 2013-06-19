@@ -31,10 +31,29 @@ class App extends Secure_Controller {
         $d['credit'] = $this->config->item('credit_aplikasi');
         $d['alamat'] = $this->config->item('alamat_instansi');
         
+        $page = $this->uri->segment(3);
+        $limit = $this->config->item('limit_data');
+        $offset = (!$page) ? 0 : $page;
+        
+        $d['tot'] = $offset;
+        $tot_hal = $this->db->get("tbl_stok_barang");
+        $config['base_url'] = base_url() . 'app/index/';
+        $config['total_rows'] = $tot_hal->num_rows();
+        $config['per_page'] = $limit;
+        $config['uri_segment'] = 3;
+        $this->pagination->initialize($config);
+        $d["paginator"] =$this->pagination->create_links();
+        
+        $this->db->join('tbl_barang', 'tbl_barang.id_barang = tbl_stok_barang.id_barang');
+        $this->db->join('tbl_kategori_barang', 'tbl_kategori_barang.id_kategori_barang = tbl_barang.id_kategori_barang');
+        $this->db->join('tbl_satuan_barang', 'tbl_satuan_barang.id_satuan_barang = tbl_barang.id_satuan_barang');
+        $d['list_barang'] = $this->db->get("tbl_stok_barang");
+        
         $d['beranda_aktif'] = "active";
         
         $this->load->view('include/header', $d);
         $this->load->view('dashboard_administrator/bg_header');
+        $this->load->view('dashboard_global/bg_list_stok');
         $this->load->view('include/footer');
     }
     

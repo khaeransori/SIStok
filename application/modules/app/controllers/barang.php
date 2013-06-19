@@ -89,6 +89,7 @@ class barang extends Secure_Controller {
     public function hapus($id_barang) {
         $id['id_barang'] = $id_barang;
         $this->db->delete("tbl_barang",$id);
+        $this->db->delete("tbl_stok_barang",$id);
         header('location:'.base_url().'app/barang');
     }
     
@@ -168,7 +169,8 @@ class barang extends Secure_Controller {
                 $in['id_kategori_barang'] = $this->input->post("id_kategori_barang");
                 $in['id_satuan_barang'] = $this->input->post("id_satuan_barang");
                 $this->db->insert("tbl_barang",$in);
-
+                $instok['id_barang'] = $this->db->insert_id();
+                $this->db->insert("tbl_stok_barang",$instok);
                 $this->session->set_flashdata("success","Data berhasil ditambahkan.");
                 header('location:'.base_url().'app/barang');
             }

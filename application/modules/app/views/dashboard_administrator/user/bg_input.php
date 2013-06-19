@@ -41,12 +41,12 @@
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="stts">Status</label>
+        <label class="control-label" for="level">Level</label>
         <div class="controls">
             <?php $a=""; $g=""; $m="";
             ($level==1) ? $a="selected='selected'" : (($level==2) ? $g="selected='selected'" : $m="selected='selected'");
             ?>
-            <select name="stts">
+            <select name="level">
                 <option value="1" <?php echo $a; ?>>Administrator</option>
                 <option value="2" <?php echo $g; ?>>Gudang</option>
                 <option value="3" <?php echo $m; ?>>Manager</option>
